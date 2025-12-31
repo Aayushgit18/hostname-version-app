@@ -1,26 +1,66 @@
-const express = require("express");
-const os = require("os");
+const express = require('express');
+
+const os = require('os'); // Import OS module
 
 const app = express();
+ 
+// Read environment variables
 
-const NODE_NUMBER = process.env.NODE_NUMBER || "01";
-const VERSION = process.env.APP_VERSION || "1.0";
+const NODE_NUMBER = process.env.NODE_NUMBER || "01"; // instance suffix
 
-// REAL container hostname (Docker/ECS)
-const CONTAINER_HOSTNAME = os.hostname();
+const VERSION = process.env.APP_VERSION || "1.0";   // version
+ 
+// Get actual system hostname
 
-app.get("/", (req, res) => {
+const SYSTEM_HOSTNAME = os.hostname();
+ 
+// Construct display hostname
+
+const HOSTNAME = `${SYSTEM_HOSTNAME}-Node-${NODE_NUMBER}`;
+ 
+// Serve a simple Web UI
+
+app.get('/', (req, res) => {
+
   res.send(`
-    <html>
-      <body style="text-align:center;font-family:Arial;margin-top:50px;">
-        <h1>Node-${NODE_NUMBER}</h1>
-        <h3>Version ${VERSION}</h3>
-        <p><b>Container Hostname:</b> ${CONTAINER_HOSTNAME}</p>
-      </body>
-    </html>
-  `);
-});
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web UI App</title>
+<style>
 
-app.listen(3000, () => {
-  console.log("App running");
+          body {
+
+            font-family: Arial, sans-serif;
+
+            text-align: center;
+
+            margin-top: 50px;
+
+          }
+
+          h1 { color: #2c3e50; }
+
+          h3 { color: #16a085; }
+</style>
+</head>
+<body>
+<h1>${HOSTNAME}</h1>
+<h3>Version ${VERSION}</h3>
+</body>
+</html>
+
+  `);
+
 });
+ 
+// Use PORT from environment or default to 3000
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+
+  console.log(`Web UI running on port ${PORT}`);
+
+});
+ 

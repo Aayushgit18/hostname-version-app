@@ -1,45 +1,74 @@
-resource "aws_iam_role" "ecs_task_execution" {
-  name = "ecsTaskExecutionRole"
+# ECS Service 01  
+resource "aws_ecs_service" "service_01" {
+  name            = "hostname-service-01"
+  cluster         = aws_ecs_cluster.cluster.id
+  task_definition = aws_ecs_task_definition.task_01.arn
+  desired_count   = 1
+  launch_type     = "EC2"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect    = "Allow"
-      Principal = { Service = "ecs-tasks.amazonaws.com" }
-      Action    = "sts:AssumeRole"
-    }]
-  })
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg.arn
+    container_name   = "app"
+    container_port   = 3000
+  }
+
+  network_configuration {
+    subnets         = [
+      aws_subnet.public_1.id,
+      aws_subnet.public_2.id
+    ]
+    security_groups = [aws_security_group.ecs_sg.id]
+  }
+
+  enable_execute_command = true
 }
 
-resource "aws_iam_role_policy_attachment" "ecs_task_policy" {
-  role       = aws_iam_role.ecs_task_execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+# ECS Service 02  
+resource "aws_ecs_service" "service_02" {
+  name            = "hostname-service-02"
+  cluster         = aws_ecs_cluster.cluster.id
+  task_definition = aws_ecs_task_definition.task_02.arn
+  desired_count   = 1
+  launch_type     = "EC2"
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg.arn
+    container_name   = "app"
+    container_port   = 3000
+  }
+
+  network_configuration {
+    subnets         = [
+      aws_subnet.public_1.id,
+      aws_subnet.public_2.id
+    ]
+    security_groups = [aws_security_group.ecs_sg.id]
+  }
+
+  enable_execute_command = true
 }
 
-resource "aws_iam_role" "ecs_instance_role" {
-  name = "ecsInstanceRole"
+# ECS Service 03  
+resource "aws_ecs_service" "service_03" {
+  name            = "hostname-service-03"
+  cluster         = aws_ecs_cluster.cluster.id
+  task_definition = aws_ecs_task_definition.task_03.arn
+  desired_count   = 1
+  launch_type     = "EC2"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect    = "Allow"
-      Principal = { Service = "ec2.amazonaws.com" }
-      Action    = "sts:AssumeRole"
-    }]
-  })
-}
+  load_balancer {
+    target_group_arn = aws_lb_target_group.tg.arn
+    container_name   = "app"
+    container_port   = 3000
+  }
 
-resource "aws_iam_role_policy_attachment" "ecs_instance_ecs" {
-  role       = aws_iam_role.ecs_instance_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
-}
+  network_configuration {
+    subnets         = [
+      aws_subnet.public_1.id,
+      aws_subnet.public_2.id
+    ]
+    security_groups = [aws_security_group.ecs_sg.id]
+  }
 
-resource "aws_iam_role_policy_attachment" "ecs_instance_ssm" {
-  role       = aws_iam_role.ecs_instance_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
-
-resource "aws_iam_instance_profile" "ecs_profile" {
-  name = "ecsInstanceProfile"
-  role = aws_iam_role.ecs_instance_role.name
+  enable_execute_command = true
 }

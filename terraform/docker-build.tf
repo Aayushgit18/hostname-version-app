@@ -7,11 +7,11 @@ resource "null_resource" "docker_build_push" {
 aws ecr get-login-password --region ap-south-1 `
 | docker login --username AWS --password-stdin 035466343132.dkr.ecr.ap-south-1.amazonaws.com
 
-docker build -t ${var.app_name}:latest ..
+docker build -t hostname-version-app:latest ..
 
-docker tag ${var.app_name}:latest ${aws_ecr_repository.app.repository_url}:${var.image_tag}
+docker tag hostname-version-app:latest 035466343132.dkr.ecr.ap-south-1.amazonaws.com/hostname-version-app:1.0
 
-docker push ${aws_ecr_repository.app.repository_url}:${var.image_tag}
+docker push 035466343132.dkr.ecr.ap-south-1.amazonaws.com/hostname-version-app:1.0
 EOT
   }
 

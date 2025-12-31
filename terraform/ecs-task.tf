@@ -1,3 +1,6 @@
+# =========================================================
+# ECS TASK DEFINITION – NODE 01
+# =========================================================
 resource "aws_ecs_task_definition" "task_01" {
   family                   = "hostname-task-01"
   requires_compatibilities = ["EC2"]
@@ -5,25 +8,36 @@ resource "aws_ecs_task_definition" "task_01" {
   cpu                      = "256"
   memory                   = "512"
 
+  # Pull image + write logs
   execution_role_arn = aws_iam_role.ecs_task_execution.arn
-  task_role_arn      = aws_iam_role.ecs_task_role.arn   # ✅ REQUIRED
 
-  container_definitions = jsonencode([{
-    name  = "app"
-    image = var.image
+  # REQUIRED for ECS Exec
+  task_role_arn = aws_iam_role.ecs_task_role.arn
 
-    environment = [
-      { name = "NODE_NUMBER", value = "01" },
-      { name = "APP_VERSION", value = "1.0" }
-    ]
+  container_definitions = jsonencode([
+    {
+      name  = "app"
+      image = var.image
+      essential = true
 
-    portMappings = [{
-      containerPort = 3000
-      hostPort      = 3000
-    }]
-  }])
+      environment = [
+        { name = "NODE_NUMBER", value = "01" },
+        { name = "APP_VERSION", value = "1.0" }
+      ]
+
+      portMappings = [
+        {
+          containerPort = 3000
+          hostPort      = 3000
+        }
+      ]
+    }
+  ])
 }
 
+# =========================================================
+# ECS TASK DEFINITION – NODE 02
+# =========================================================
 resource "aws_ecs_task_definition" "task_02" {
   family                   = "hostname-task-02"
   requires_compatibilities = ["EC2"]
@@ -34,22 +48,30 @@ resource "aws_ecs_task_definition" "task_02" {
   execution_role_arn = aws_iam_role.ecs_task_execution.arn
   task_role_arn      = aws_iam_role.ecs_task_role.arn
 
-  container_definitions = jsonencode([{
-    name  = "app"
-    image = var.image
+  container_definitions = jsonencode([
+    {
+      name  = "app"
+      image = var.image
+      essential = true
 
-    environment = [
-      { name = "NODE_NUMBER", value = "02" },
-      { name = "APP_VERSION", value = "2.0" }
-    ]
+      environment = [
+        { name = "NODE_NUMBER", value = "02" },
+        { name = "APP_VERSION", value = "2.0" }
+      ]
 
-    portMappings = [{
-      containerPort = 3000
-      hostPort      = 3000
-    }]
-  }])
+      portMappings = [
+        {
+          containerPort = 3000
+          hostPort      = 3000
+        }
+      ]
+    }
+  ])
 }
 
+# =========================================================
+# ECS TASK DEFINITION – NODE 03
+# =========================================================
 resource "aws_ecs_task_definition" "task_03" {
   family                   = "hostname-task-03"
   requires_compatibilities = ["EC2"]
@@ -60,19 +82,23 @@ resource "aws_ecs_task_definition" "task_03" {
   execution_role_arn = aws_iam_role.ecs_task_execution.arn
   task_role_arn      = aws_iam_role.ecs_task_role.arn
 
-  container_definitions = jsonencode([{
-    name  = "app"
-    image = var.image
+  container_definitions = jsonencode([
+    {
+      name  = "app"
+      image = var.image
+      essential = true
 
-    environment = [
-      { name = "NODE_NUMBER", value = "03" },
-      { name = "APP_VERSION", value = "3.0" }
-    ]
+      environment = [
+        { name = "NODE_NUMBER", value = "03" },
+        { name = "APP_VERSION", value = "3.0" }
+      ]
 
-    portMappings = [{
-      containerPort = 3000
-      hostPort      = 3000
-    }]
-  }])
+      portMappings = [
+        {
+          containerPort = 3000
+          hostPort      = 3000
+        }
+      ]
+    }
+  ])
 }
-

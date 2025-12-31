@@ -1,0 +1,20 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+
+# AWS / CLI
+awscliv2.zip
+
+# OS
+.DS_Store
+Thumbs.db
+# AWS CLI
+aws/
+awscliv2.zip
+

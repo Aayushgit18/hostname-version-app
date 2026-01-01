@@ -1,6 +1,4 @@
-# ===============================
 # APPLICATION VARIABLES
-# ===============================
 
 variable "app_name" {
   description = "Application name"

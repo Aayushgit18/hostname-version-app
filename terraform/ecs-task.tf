@@ -1,6 +1,4 @@
-# =========================================================
 # ECS TASK DEFINITION – NODE 01
-# =========================================================
 resource "aws_ecs_task_definition" "task_01" {
   family                   = "hostname-task-01"
   requires_compatibilities = ["EC2"]
@@ -35,9 +33,7 @@ resource "aws_ecs_task_definition" "task_01" {
   ])
 }
 
-# =========================================================
 # ECS TASK DEFINITION – NODE 02
-# =========================================================
 resource "aws_ecs_task_definition" "task_02" {
   family                   = "hostname-task-02"
   requires_compatibilities = ["EC2"]
@@ -69,9 +65,7 @@ resource "aws_ecs_task_definition" "task_02" {
   ])
 }
 
-# =========================================================
 # ECS TASK DEFINITION – NODE 03
-# =========================================================
 resource "aws_ecs_task_definition" "task_03" {
   family                   = "hostname-task-03"
   requires_compatibilities = ["EC2"]

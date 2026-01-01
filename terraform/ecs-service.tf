@@ -1,6 +1,4 @@
-# =========================================================
 # ECS SERVICE – NODE 01
-# =========================================================
 resource "aws_ecs_service" "service_01" {
   name            = "hostname-service-01"
   cluster         = aws_ecs_cluster.cluster.id
@@ -29,9 +27,7 @@ resource "aws_ecs_service" "service_01" {
   ]
 }
 
-# =========================================================
 # ECS SERVICE – NODE 02
-# =========================================================
 resource "aws_ecs_service" "service_02" {
   name            = "hostname-service-02"
   cluster         = aws_ecs_cluster.cluster.id
@@ -60,9 +56,8 @@ resource "aws_ecs_service" "service_02" {
   ]
 }
 
-# =========================================================
+
 # ECS SERVICE – NODE 03
-# =========================================================
 resource "aws_ecs_service" "service_03" {
   name            = "hostname-service-03"
   cluster         = aws_ecs_cluster.cluster.id

@@ -1,6 +1,4 @@
-# ===============================
 # ECS TASK EXECUTION ROLE
-# ===============================
 resource "aws_iam_role" "ecs_task_execution" {
   name = "ecsTaskExecutionRole"
 
@@ -19,9 +17,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-# ===============================
 # ECS TASK ROLE (for ECS Exec)
-# ===============================
 resource "aws_iam_role" "ecs_task_role" {
   name = "ecsTaskRole"
 
@@ -40,9 +36,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_ssm" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
-# ===============================
 # ECS EC2 INSTANCE ROLE
-# ===============================
 resource "aws_iam_role" "ecs_instance_role" {
   name = "ecsInstanceRole"
 
